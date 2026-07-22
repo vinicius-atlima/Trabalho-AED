@@ -2,6 +2,6 @@
 #include "lista.h"
 
 int main() {
-    printf("Sistema de Generos Musicais\n");
+    printf("Sistema de Gêneros Musicais\n");
     return 0;
 }

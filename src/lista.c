@@ -3,46 +3,48 @@
 #include <stdio.h>
 #include "lista.h"
 
-//-------------------------------Definições das estruturas-----------------------------------
+//------------------------------ Definições das estruturas ----------------------------------
 
 struct artista {
-    // Estrutura nó da lista secundária (artista / banda)
-    int id;
-    char nome[MAX_STRING];
-    char cidadeOrigem[MAX_STRING];
+	// Estrutura nó da lista secundária (artista / banda)
+	char nome[MAX_STRING];
+	char cidadeOrigem[MAX_STRING]
+	char principaisObras[MAX_STRING];
+
+	struct artista* ant;
+	struct artista* prox;
+
+	int id;
+	int qtdIntegrantes;
+	int qtdPremiacoes;
 	int estreia;
 	int atividade;
 	int encerramento;
-    char principaisObras[MAX_STRING];
-    int qtdIntegrantes;
-    int qtdPremiacoes;
-
-    struct artista* ant;
-    struct artista* prox;
 };
 
 struct genero {
-    // Estrutura nó da lista principal (gênero)
-    int id;
-    char nome[MAX_STRING];
+	// Estrutura nó da lista principal (gênero)
+	char nome[MAX_STRING];
 
-    Artista* inicioArtistas;
-    Artista* fimArtistas;
-    int qtdArtistas;
+	Artista* inicioArtistas;
+	Artista* fimArtistas;
+	
+	struct genero* ant;
+	struct genero* prox;
 
-    struct genero* ant;
-    struct genero* prox;
+	int id;
+	int qtdArtistas;
 };
 
 struct listaPrincipal {
-    // Estrutura lista principal (de gêneros)
-    struct genero* inicio;
-    struct genero* fim;
-    int qtdGeneros;
+	// Estrutura lista principal (de gêneros)
+	struct genero* inicio;
+	struct genero* fim;
+	int qtdGeneros; 
 };
 
 
-//---------------------------------Verificam listas vazias-----------------------------------
+//------------------------------- Verificam listas vazias -----------------------------------
 
 int listaGenerosEhVazia (ListaPrincipal *l) {
 	// Verifica se ainda não existem gêneros cadastrados
@@ -55,7 +57,7 @@ int listaArtistasEhVazia (Genero *g) {
 }
 
 
-//---------------------Funções de manipulação sobre a lista de gêneros-----------------------
+//-------------------- Funções de manipulação sobre a lista de gêneros ----------------------
 
 ListaPrincipal *iniciaListaGeneros () {
 	// Aloca uma lista de gêneros vazia
@@ -74,7 +76,7 @@ Genero *criaGenero (int idGenero, const char nomeGenero[]) {
 		getchar();
 		exit(EXIT_FAILURE);
 	}
-  
+
 	novo->id = idGenero;
 	strcpy(novo->nome, nomeGenero);
 	novo->inicioArtistas = NULL;
@@ -82,7 +84,7 @@ Genero *criaGenero (int idGenero, const char nomeGenero[]) {
 	novo->qtdArtistas = 0;
 	novo->ant = NULL;
 	novo->prox = NULL;
-  
+
 	return novo;
 }
 
@@ -104,11 +106,11 @@ void insereGenero (ListaPrincipal *l, Genero *g) {
 }
 
 
-//---------------------Funções de manipulação sobre a lista de artistas----------------------
+//-------------------- Funções de manipulação sobre a lista de artistas ---------------------
 
 Artista *criaArtista (int idArtista, const char nomeArtista[], int numDeIntegrantes, int numDePremiacoes,
-					  const char cidadeNatal[], int anoDeEstreia, int naAtiva, int ultimaMusica,
-					  const char melhoresObras[]) {
+					const char cidadeNatal[], int anoDeEstreia, int naAtiva, int ultimaMusica,
+					const char melhoresObras[]) {
 	// Cria um "nó artista", dadas as informações para preencher seus campos
 	Artista *novo = (Artista *) malloc(sizeof(*novo));
 	if (novo == NULL) {
@@ -116,10 +118,10 @@ Artista *criaArtista (int idArtista, const char nomeArtista[], int numDeIntegran
 		getchar();
 		exit(EXIT_FAILURE);
 	}
-  
+
 	novo->id = idArtista;
 	strcpy(novo->nome, nomeArtista);
-    novo->qtdIntegrantes = numDeIntegrantes;
+	novo->qtdIntegrantes = numDeIntegrantes;
 	novo->qtdPremiacoes = numDePremiacoes;
 	strcpy(novo->cidadeOrigem, cidadeNatal);
 	novo->estreia = anoDeEstreia;
@@ -128,7 +130,7 @@ Artista *criaArtista (int idArtista, const char nomeArtista[], int numDeIntegran
 	strcpy(novo->principaisObras, melhoresObras);
 	novo->ant = NULL;
 	novo->prox = NULL;
-  
+
 	return novo;
 }
 
@@ -154,7 +156,7 @@ void insereArtistaNoGenero (Genero *g, Artista *a) {
 /* } */
 
 
-//----------------------------Funções que imprimem informações-------------------------------
+//--------------------------- Funções que imprimem informações ------------------------------
 
 void imprimeGenero (Genero *g) {
 	// Imprime as informações de um gênero
@@ -169,7 +171,7 @@ void imprimeListaGeneros (ListaPrincipal *l) {
 		printf("Lista de gêneros vazia.\n");
 		return;
 	}
-  
+
 	Genero *atual = l->inicio;
 	while (atual != NULL) {
 		imprimeGenero(atual);
@@ -196,7 +198,7 @@ void imprimeListaArtistas (Genero *g) {
 		printf("Lista de artistas vazia.\n");
 		return;
 	}
-  
+
 	Artista *atual = g->inicioArtistas;
 	while (atual != NULL) {
 		imprimeArtista(atual);
@@ -209,12 +211,33 @@ void imprimeListaArtistas (Genero *g) {
 /* } */
 
 
-//----------------------Funções de manipulação de arquivos (Vinícius)------------------------
+//--------------------------------- Funções de remoção --------------------------------------
+
+
+
+
+//---------------------------------- Funções de busca ---------------------------------------
+
+
+
+
+//-------------------------- Consultas e funções de cruzamento ------------------------------
+
+
+
+
+
+//--------------------------------- Impressão de menus --------------------------------------
+
+
+
+
+//--------------------- Funções de manipulação de arquivos (Vinícius) -----------------------
 
 FILE *abreArquivoPraLer (FILE *fp, const char nome[]) {
 	// Abre o arquivo no modo "read" e checa se houve erro; retorna o ponteiro para o arquivo
 	fp = fopen(nome, "r");
-  
+
 	if (fp == NULL) {
 		printf("Erro na abertura do arquivo. Rode o programa novamente.");
 		getchar();
@@ -227,13 +250,13 @@ FILE *abreArquivoPraLer (FILE *fp, const char nome[]) {
 FILE *abreArquivoPraEscrever (FILE *fp, const char nome[]) {
 	// Abre o arquivo no modo "append" e checa se houve erro; retorna o ponteiro para o arquivo
 	fp = fopen(nome, "a");
-  
+
 	if (fp == NULL) {
 		printf("Erro na abertura do arquivo. Rode o programa novamente.");
 		getchar();
 		exit(EXIT_FAILURE);
 	}
-  
+
 	return fp;
 }
 
@@ -242,33 +265,33 @@ Genero *lerGenero (FILE *fp) {
 	char buffer[MAX_STRING];
 	
 	if (fgets(buffer, sizeof(buffer), fp) == NULL) return NULL; /* Se o fgets encontra EOF, então ela retorna NULL e
-	                                                               a função lerGenero também retorna um ponteiro
-	                                                               nulo, o que será a condição de parada da função
-	                                                               "carregaGeneros" */
+																a função lerGenero também retorna um ponteiro
+																nulo, o que será a condição de parada da função
+																"carregaGeneros" */
 	int idGenero;
 	char nomeGenero[MAX_STRING];
 	char *ponteiro;
 	char *token = strtok_r(buffer, ";", &ponteiro); /* "token" recebe a primeira parte da linha do arquivo (antes do
-													   ponto e vírgula), que é o ID do gênero da linha em questão */
+													ponto e vírgula), que é o ID do gênero da linha em questão */
 	if (token == NULL) {
 		printf("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos campos "
-			   "corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa novamente.)");
+			"corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa novamente.)");
 		getchar();
 		exit(EXIT_FAILURE);
 	}
 	sscanf(token, "%d", &idGenero); // Processa a string lida como um número (ID é um int) e atribui a "idGenero"
-  
+
 	token = strtok_r(NULL, ";", &ponteiro); /* "token" agora contém o nome do gênero, que vem depois do ponto e
-	                                           vírgula (a segunda parte da linha) */
+											vírgula (a segunda parte da linha) */
 	if (token == NULL) {
 		printf("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos campos "
-			   "corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa novamente.)");
+			"corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa novamente.)");
 		getchar();
 		exit(EXIT_FAILURE);
 	}
 	
 	token[strcspn(token, "\r\n")] = '\0'; /* Essa linha pega a primeira quebra de linha no final da string e troca
-	                                         por '\0' (termina a string automaticamente, ignorando '\r' ou '\n') */
+											por '\0' (termina a string automaticamente, ignorando '\r' ou '\n') */
 
 	return criaGenero(idGenero, token); // "token" já contém a string que é o nome do gênero
 }
@@ -277,7 +300,7 @@ void carregaGeneros (FILE *fp, ListaPrincipal *l) {
 	// Carrega todos os gêneros cadastrados em um arquivo ("generos.txt") para a lista principal
 	int c;
 	while ((c = fgetc(fp)) != '\n'); /* Essa parte (últimas duas linhas) só serve para pularmos a primeira linha,
-	                                    que é um cabeçalho */
+										que é um cabeçalho */
 	Genero *g;
 	while ((g = lerGenero(fp)) != NULL) {
 		insereGenero(l, g);
