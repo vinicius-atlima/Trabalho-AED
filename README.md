@@ -80,8 +80,8 @@ Responsável pelo TAD da lista principal e pelas operações que mantêm os gên
 
 Responsável pelas operações da lista de artistas mantida dentro de cada gênero. As funções devem preservar o encadeamento duplo, atualizar a quantidade de artistas do gênero e permitir consultas locais e globais.
 
-- [ ] Implementar a inserção de artistas dentro de um gênero.
-- [ ] Implementar a busca de artistas dentro de um gênero.
+- [x] Implementar a busca de artistas dentro de um gênero.
+- [x] Implementar a inserção de artistas dentro de um gênero.
 - [ ] Implementar a alteração de artistas.
 - [ ] Implementar a remoção de artistas.
 - [ ] Implementar a listagem dos artistas de um gênero específico.
