@@ -1,37 +1,29 @@
 #ifndef LISTA_H
 #define LISTA_H
+
 #define MAX_STRING 100
 
-//Estrutura lista secundaria (artista / banda)
-typedef struct Artista {
-    int id;
-    char nome[MAX_STRING];
-    char cidadeOrigem[MAX_STRING];
-    char periodoAtuacao[MAX_STRING];
-    int qtdIntegrantes;
-    int qtdPremiacoes;
+typedef struct artista Artista;
+typedef struct genero Genero;
+typedef struct listaPrincipal ListaPrincipal;
 
-    struct Artista* anterior;
-    struct Artista* proximo;
-} Artista;
+Artista *buscaArtistaGenero(Genero *genero, int id);
 
-//Estrutura lista principal (genero)
-typedef struct Genero {
-    int id;
-    char nomeGenero[MAX_STRING];
+int inserirArtistaGenero(ListaPrincipal *lista, Genero *genero, int id,
+                         const char nome[], const char cidadeOrigem[],
+                         const char principaisObras[], int qtdIntegrantes,
+                         int qtdPremiacoes, int estreia, int atividade,
+                         int encerramento);
 
-    Artista* inicioArtistas;
-    Artista* fimArtistas;
-    int qtdArtistas;
+int alterarArtistaGenero(Genero *genero, int id, const char nome[],
+                         const char cidadeOrigem[],
+                         const char principaisObras[], int qtdIntegrantes,
+                         int qtdPremiacoes, int estreia, int atividade,
+                         int encerramento);
 
-    struct Genero* anterior;
-    struct Genero* proximo;
-} Genero;
-
-typedef struct {
-    Genero* inicio;
-    Genero* fim;
-    int qtdGeneros;
-} ListaPrincipal;
+int removerArtistaGenero(Genero *genero, int id);
+void listarArtistasGenero(Genero *genero);
+Artista *buscaGlobalArtista(ListaPrincipal *lista, int id);
+void filtrarArtistasPremiacoes(ListaPrincipal *lista, int minimoPremiacoes);
 
 #endif
