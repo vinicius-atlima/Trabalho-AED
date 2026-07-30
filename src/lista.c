@@ -40,8 +40,247 @@ struct listaPrincipal {
 	// Estrutura lista principal (de gêneros)
 	struct genero* inicio;
 	struct genero* fim;
-	int qtdGeneros; 
+	int qtdGeneros;
 };
+
+
+//------------------------ Manipulação da lista de artistas (Fernando) ----------------------
+
+static void copiarTexto(char destino[MAX_STRING], const char origem[]) {
+	// Copia uma string para um campo de tamanho limitado, garantindo o terminador.
+  snprintf(destino, MAX_STRING, "%s", origem);
+}
+
+static void exibirArtista(const Artista *artista) {
+	// Exibe no terminal todos os dados armazenados em um artista.
+  printf("ID: %d\n", artista->id);
+  printf("Nome: %s\n", artista->nome);
+  printf("Cidade de origem: %s\n", artista->cidadeOrigem);
+  printf("Principais obras: %s\n", artista->principaisObras);
+  printf("Quantidade de integrantes: %d\n", artista->qtdIntegrantes);
+  printf("Quantidade de premiacoes: %d\n", artista->qtdPremiacoes);
+  printf("Estreia: %d\n", artista->estreia);
+  printf("Atividade: %d\n", artista->atividade);
+  printf("Encerramento: %d\n", artista->encerramento);
+  printf("------------------------------\n");
+}
+
+Artista *buscaArtistaGenero(Genero *genero, int id) {
+	// Busca um artista pelo ID dentro da lista de um gênero específico.
+  if (genero == NULL) {
+    return NULL;
+  }
+
+	Artista *aux;
+  aux = genero->inicioArtistas;
+  while (aux != NULL) {
+    if (aux->id == id) {
+      return aux;
+    }
+    aux = aux->prox;
+  }
+
+  return NULL;
+}
+
+static Artista *localizarArtistaGlobal(ListaPrincipal *lista, int id) {
+	// Localiza um artista pelo ID em todos os gêneros do sistema.
+  Genero *genero;
+
+  if (lista == NULL) {
+    return NULL;
+  }
+
+  genero = lista->inicio;
+  while (genero != NULL) {
+    Artista *artista = buscaArtistaGenero(genero, id);
+
+    if (artista != NULL) {
+      return artista;
+    }
+    genero = genero->prox;
+  }
+
+  return NULL;
+}
+
+
+int inserirArtistaGenero(ListaPrincipal *lista, Genero *genero, int id, const char nome[], const char cidadeOrigem[],
+                         const char principaisObras[], int qtdIntegrantes, int qtdPremiacoes, int estreia,
+												 int atividade, int encerramento) {
+	// Cria e insere um artista no fim da lista do gênero, exigindo ID global único.
+	Artista *novo;
+
+  if (lista == NULL || genero == NULL || nome == NULL || cidadeOrigem == NULL ||
+      principaisObras == NULL) {
+    return 0;
+  }
+
+  if (localizarArtistaGlobal(lista, id) != NULL) {
+    printf("Ja existe um artista com esse ID no sistema.\n");
+    return 0;
+  }
+
+  novo = malloc(sizeof(Artista));
+  if (novo == NULL) {
+    printf("Falha na alocacao de memória.\n");
+    return 0;
+  }
+
+  copiarTexto(novo->nome, nome);
+  copiarTexto(novo->cidadeOrigem, cidadeOrigem);
+  copiarTexto(novo->principaisObras, principaisObras);
+  novo->ant = genero->fimArtistas;
+  novo->prox = NULL;
+  novo->id = id;
+  novo->qtdIntegrantes = qtdIntegrantes;
+  novo->qtdPremiacoes = qtdPremiacoes;
+  novo->estreia = estreia;
+  novo->atividade = atividade;
+  novo->encerramento = encerramento;
+
+  if (genero->inicioArtistas == NULL) {
+    genero->inicioArtistas = novo;
+  } else {
+    genero->fimArtistas->prox = novo;
+  }
+
+  genero->fimArtistas = novo;
+  genero->qtdArtistas++;
+
+  return 1;
+}
+
+int alterarArtistaGenero(Genero *genero, int id, const char nome[], const char cidadeOrigem[],
+												 const char principaisObras[], int qtdIntegrantes, int qtdPremiacoes, int estreia, int atividade,
+                         int encerramento) {
+	// Atualiza os dados do artista identificado pelo ID dentro de um gênero.
+	Artista *artista;
+
+  if (genero == NULL || nome == NULL || cidadeOrigem == NULL || principaisObras == NULL) {
+    return 0;
+  }
+
+  artista = buscaArtistaGenero(genero, id);
+  if (artista == NULL) {
+    return 0;
+  }
+
+  copiarTexto(artista->nome, nome);
+  copiarTexto(artista->cidadeOrigem, cidadeOrigem);
+  copiarTexto(artista->principaisObras, principaisObras);
+  artista->qtdIntegrantes = qtdIntegrantes;
+  artista->qtdPremiacoes = qtdPremiacoes;
+  artista->estreia = estreia;
+  artista->atividade = atividade;
+  artista->encerramento = encerramento;
+
+  return 1;
+}
+
+int removerArtistaGenero(Genero *genero, int id) {
+	// Remove do gênero o artista indicado pelo ID e reajusta o encadeamento da lista.
+  Artista *artista;
+
+  if (genero == NULL) {
+    return 0;
+  }
+
+  artista = buscaArtistaGenero(genero, id);
+  if (artista == NULL) {
+    return 0;
+  }
+
+  if (artista->ant == NULL) {
+    genero->inicioArtistas = artista->prox;
+  } else {
+    artista->ant->prox = artista->prox;
+  }
+
+  if (artista->prox == NULL) {
+    genero->fimArtistas = artista->ant;
+  } else {
+    artista->prox->ant = artista->ant;
+  }
+
+  free(artista);
+  genero->qtdArtistas--;
+
+  return 1;
+}
+
+void listarArtistasGenero(Genero *genero) {
+	// Percorre e exibe todos os artistas cadastrados em um gênero.
+  Artista *aux;
+
+  if (genero == NULL) {
+    return;
+  }
+
+  aux = genero->inicioArtistas;
+  while (aux != NULL) {
+    exibirArtista(aux);
+    aux = aux->prox;
+  }
+}
+
+Artista *buscaGlobalArtista(ListaPrincipal *lista, int id) {
+	// Busca um artista pelo ID no sistema, exibe seus dados e retorna seu endereço.
+  Genero *auxGenero;
+  Artista *artista;
+
+  if (lista == NULL) {
+    return NULL;
+  }
+
+  artista = localizarArtistaGlobal(lista, id);
+  if (artista == NULL) {
+    return NULL;
+  }
+
+  auxGenero = lista->inicio;
+  while (auxGenero != NULL) {
+    if (buscaArtistaGenero(auxGenero, id) == artista) {
+      printf("Genero: %s\n", auxGenero->nome);
+      exibirArtista(artista);
+      return artista;
+    }
+
+    auxGenero = auxGenero->prox;
+  }
+
+  return NULL;
+}
+
+void filtrarArtistasPremiacoes(ListaPrincipal *lista, int minimoPremiacoes) {
+	// Exibe os artistas do sistema cuja quantidade de premiações atinge o mínimo.
+  Genero *auxGenero;
+  int qtdEncontrada = 0;
+
+  if (lista == NULL) {
+    return;
+  }
+
+  auxGenero = lista->inicio;
+  while (auxGenero != NULL) {
+    Artista *auxArtista = auxGenero->inicioArtistas;
+
+    while (auxArtista != NULL) {
+      if (auxArtista->qtdPremiacoes >= minimoPremiacoes) {
+        printf("Genero: %s\n", auxGenero->nome);
+        exibirArtista(auxArtista);
+        qtdEncontrada++;
+      }
+      auxArtista = auxArtista->prox;
+    }
+
+    auxGenero = auxGenero->prox;
+  }
+
+  if (qtdEncontrada == 0) {
+    printf("Nenhum artista foi encontrado.\n");
+  }
+}
 
 
 //------------------------------- Verificam listas vazias -----------------------------------
@@ -109,8 +348,8 @@ void insereGenero (ListaPrincipal *l, Genero *g) {
 //-------------------- Funções de manipulação sobre a lista de artistas ---------------------
 
 Artista *criaArtista (int idArtista, const char nomeArtista[], int numDeIntegrantes, int numDePremiacoes,
-					const char cidadeNatal[], int anoDeEstreia, int naAtiva, int ultimaMusica,
-					const char melhoresObras[]) {
+											const char cidadeNatal[], int anoDeEstreia, int naAtiva, int ultimaMusica,
+											const char melhoresObras[]) {
 	// Cria um "nó artista", dadas as informações para preencher seus campos
 	Artista *novo = (Artista *) malloc(sizeof(*novo));
 	if (novo == NULL) {
@@ -132,23 +371,6 @@ Artista *criaArtista (int idArtista, const char nomeArtista[], int numDeIntegran
 	novo->prox = NULL;
 
 	return novo;
-}
-
-void insereArtistaNoGenero (Genero *g, Artista *a) {
-	// Insere um artista no fim da lista de artistas (para manter a ordem de aparição no arquivo)
-	if (listaArtistasEhVazia(g)) {
-		g->qtdArtistas = 1;
-		a->prox = NULL;
-		a->ant = NULL;
-		g->inicioArtistas = a;
-		g->fimArtistas = a;
-	}
-	
-	g->qtdArtistas++;
-	a->ant = g->fimArtistas;
-	g->fimArtistas->prox = a;
-	a->prox = NULL;
-	g->fimArtistas = a;
 }
 
 /* int totalDeArtistas (ListaPrincipal *l) { */
@@ -226,7 +448,6 @@ void imprimeListaArtistas (Genero *g) {
 
 
 
-
 //--------------------------------- Impressão de menus --------------------------------------
 
 
@@ -265,33 +486,33 @@ Genero *lerGenero (FILE *fp) {
 	char buffer[MAX_STRING];
 	
 	if (fgets(buffer, sizeof(buffer), fp) == NULL) return NULL; /* Se o fgets encontra EOF, então ela retorna NULL e
-																a função lerGenero também retorna um ponteiro
-																nulo, o que será a condição de parada da função
-																"carregaGeneros" */
+																																 a função lerGenero também retorna um ponteiro
+																																 nulo, o que será a condição de parada da função
+																																 "carregaGeneros" */
 	int idGenero;
 	char nomeGenero[MAX_STRING];
 	char *ponteiro;
 	char *token = strtok_r(buffer, ";", &ponteiro); /* "token" recebe a primeira parte da linha do arquivo (antes do
-													ponto e vírgula), que é o ID do gênero da linha em questão */
+																										 ponto e vírgula), que é o ID do gênero da linha em questão */
 	if (token == NULL) {
 		printf("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos campos "
-			"corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa novamente.)");
+					 "corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa novamente.)");
 		getchar();
 		exit(EXIT_FAILURE);
 	}
 	sscanf(token, "%d", &idGenero); // Processa a string lida como um número (ID é um int) e atribui a "idGenero"
 
 	token = strtok_r(NULL, ";", &ponteiro); /* "token" agora contém o nome do gênero, que vem depois do ponto e
-											vírgula (a segunda parte da linha) */
+																						 vírgula (a segunda parte da linha) */
 	if (token == NULL) {
 		printf("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos campos "
-			"corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa novamente.)");
+					 "corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa novamente.)");
 		getchar();
 		exit(EXIT_FAILURE);
 	}
 	
 	token[strcspn(token, "\r\n")] = '\0'; /* Essa linha pega a primeira quebra de linha no final da string e troca
-											por '\0' (termina a string automaticamente, ignorando '\r' ou '\n') */
+																					 por '\0' (termina a string automaticamente, ignorando '\r' ou '\n') */
 
 	return criaGenero(idGenero, token); // "token" já contém a string que é o nome do gênero
 }
@@ -300,7 +521,7 @@ void carregaGeneros (FILE *fp, ListaPrincipal *l) {
 	// Carrega todos os gêneros cadastrados em um arquivo ("generos.txt") para a lista principal
 	int c;
 	while ((c = fgetc(fp)) != '\n'); /* Essa parte (últimas duas linhas) só serve para pularmos a primeira linha,
-										que é um cabeçalho */
+																			que é um cabeçalho */
 	Genero *g;
 	while ((g = lerGenero(fp)) != NULL) {
 		insereGenero(l, g);
@@ -314,6 +535,11 @@ void carregaGeneros (FILE *fp, ListaPrincipal *l) {
 /* void carregaArtistas (FILE *fp, ListaPrincipal *l) { */
 	
 /* } */
+
+
+//--------------------------------- Liberação de memória ------------------------------------
+
+
 
 
 //-------------------------------------------------------------------------------------------
