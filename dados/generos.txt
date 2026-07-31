@@ -1,5 +1,19 @@
 [ID];[Nome do gênero]
 1;Rock
-2;Samba
-3;MPB
-4;Pop
+2;Pop
+3;Hip Hop
+4;Rap
+5;R&B
+7;Funk
+8;Jazz
+10;Country
+12;Reggae
+15;Metal
+16;Punk
+26;Eletrônica
+39;New Wave
+43;Bossa Nova
+44;Samba
+46;Forró
+47;MPB
+48;Sertanejo
