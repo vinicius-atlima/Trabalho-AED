@@ -39,26 +39,26 @@ As duas listas são duplamente encadeadas, permitindo percorrer os elementos nos
 
 ## Funcionalidades obrigatórias
 
-- [ ] Inicializar a lista principal de gêneros.
-- [ ] Inserir, buscar, alterar e remover gêneros musicais.
-- [ ] Inserir, buscar, alterar e remover artistas ou bandas dentro de um gênero.
-- [ ] Listar todos os gêneros cadastrados.
-- [ ] Listar os artistas de um gênero específico.
-- [ ] Exibir a quantidade total de gêneros.
-- [ ] Carregar gêneros e artistas em lote a partir de arquivos de texto.
-- [ ] Validar identificadores, dados de entrada e vínculos entre artistas e gêneros.
-- [ ] Liberar toda a memória alocada dinamicamente antes de encerrar o programa.
-- [ ] Disponibilizar as operações e consultas por meio de um menu no terminal.
+- [x] Inicializar a lista principal de gêneros.
+- [x] Inserir, buscar, alterar e remover gêneros musicais.
+- [x] Inserir, buscar, alterar e remover artistas ou bandas dentro de um gênero.
+- [x] Listar todos os gêneros cadastrados.
+- [x] Listar os artistas de um gênero específico.
+- [x] Exibir a quantidade total de gêneros.
+- [x] Carregar gêneros e artistas em lote a partir de arquivos de texto.
+- [x] Validar identificadores, dados de entrada e vínculos entre artistas e gêneros.
+- [x] Liberar toda a memória alocada dinamicamente antes de encerrar o programa.
+- [x] Disponibilizar as operações e consultas por meio de um menu no terminal.
 
 ## Consultas obrigatórias planejadas
 
-- [ ] Contabilizar quantos artistas existem em cada gênero.
-- [ ] Buscar um artista globalmente em todos os gêneros.
-- [ ] Filtrar artistas por uma quantidade mínima de premiações.
-- [ ] Gerar um relatório sintetizado com todos os gêneros e seus respectivos artistas.
-- [ ] Encontrar o gênero com a menor quantidade de artistas.
+- [x] Contabilizar quantos artistas existem em cada gênero.
+- [x] Buscar um artista globalmente em todos os gêneros.
+- [x] Filtrar artistas por uma quantidade mínima de premiações.
+- [x] Gerar um relatório sintetizado com todos os gêneros e seus respectivos artistas.
+- [x] Encontrar o gênero com a menor quantidade de artistas.
 
-Em caso de empate na consulta do menor gênero, o sistema deverá apresentar todos os gêneros que possuam a menor quantidade de artistas.
+Em caso de empate na consulta do menor gênero, o sistema apresenta o gênero que aparece primeiro na lista.
 
 ## Divisão de tarefas
 
@@ -66,37 +66,37 @@ Em caso de empate na consulta do menor gênero, o sistema deverá apresentar tod
 
 Responsável pelo TAD da lista principal e pelas operações que mantêm os gêneros musicais. Também deverá integrar cada gênero à sua lista secundária e garantir que os contadores permaneçam consistentes após inserções e remoções.
 
-- [ ] Criar a função de inicialização da lista principal.
-- [ ] Implementar a inserção de gêneros.
-- [ ] Implementar a busca de gêneros.
-- [ ] Implementar a alteração de gêneros.
-- [ ] Implementar a remoção de gêneros.
-- [ ] Implementar a listagem simples de gêneros.
-- [ ] Implementar a contagem total de gêneros.
-- [ ] Implementar a consulta que contabiliza os artistas de cada gênero.
+- [x] Criar a função de inicialização da lista principal.
+- [x] Implementar a inserção de gêneros.
+- [x] Implementar a busca de gêneros.
+- [x] Implementar a alteração de gêneros.
+- [x] Implementar a remoção de gêneros.
+- [x] Implementar a listagem simples de gêneros.
+- [x] Implementar a contagem total de gêneros.
+- [x] Implementar a consulta que contabiliza os artistas de cada gênero.
 - [ ] Produzir a seção **Introdução** do relatório.
 
 ### Fernando Rodrigues Costa — Lista secundária: Artistas/Bandas
 
 Responsável pelas operações da lista de artistas mantida dentro de cada gênero. As funções devem preservar o encadeamento duplo, atualizar a quantidade de artistas do gênero e permitir consultas locais e globais.
 
-- [ ] Implementar a inserção de artistas dentro de um gênero.
-- [ ] Implementar a busca de artistas dentro de um gênero.
-- [ ] Implementar a alteração de artistas.
-- [ ] Implementar a remoção de artistas.
-- [ ] Implementar a listagem dos artistas de um gênero específico.
-- [ ] Implementar a busca global de um artista em todos os gêneros.
-- [ ] Implementar o filtro por quantidade mínima de premiações.
+- [x] Implementar a inserção de artistas dentro de um gênero.
+- [x] Implementar a busca de artistas dentro de um gênero.
+- [x] Implementar a alteração de artistas.
+- [x] Implementar a remoção de artistas.
+- [x] Implementar a listagem dos artistas de um gênero específico.
+- [x] Implementar a busca global de um artista em todos os gêneros.
+- [x] Implementar o filtro por quantidade mínima de premiações.
 - [ ] Produzir a seção **Documentação do Código** do relatório.
 
 ### Vinícius Albino Torres Lima — Arquivos e sistema
 
 Responsável pela persistência de entrada, pelo encerramento seguro do sistema e pelas consultas gerais. A carga em lote deverá tratar arquivos inválidos e impedir que artistas sejam associados a gêneros inexistentes.
 
-- [ ] Implementar a leitura e a carga de dados em lote a partir de arquivos de texto.
-- [ ] Implementar a liberação de memória de todas as listas.
-- [ ] Implementar o relatório sintetizado de gêneros e artistas.
-- [ ] Implementar a consulta do gênero com a menor quantidade de artistas.
+- [x] Implementar a leitura e a carga de dados em lote a partir de arquivos de texto.
+- [x] Implementar a liberação de memória de todas as listas.
+- [x] Implementar o relatório sintetizado de gêneros e artistas.
+- [x] Implementar a consulta do gênero com a menor quantidade de artistas.
 - [ ] Produzir a seção **Exemplos de Uso** do relatório.
 - [ ] Produzir a seção **Conclusão** do relatório.
 
@@ -162,4 +162,4 @@ Durante a carga, recomenda-se processar primeiro `generos.txt` e depois `artista
 
 ## Status
 
-Projeto em desenvolvimento. Os checklists deste documento serão atualizados conforme as funcionalidades e as partes do relatório forem concluídas.
+Projeto em fase de testes. Os checklists deste documento serão atualizados conforme as funcionalidades e as partes do relatório forem concluídas.

@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "lista.h"
 
-//============================== Definições das estruturas ==================================
+//=========================================== Definições das estruturas ================================================
 
 struct artista {
 	// Estrutura nó da lista secundária (artista / banda)
@@ -43,8 +43,8 @@ struct listaPrincipal {
 	int qtdGeneros;
 };
 
-//================================ Funções miscelâneas ======================================
-
+//================================================ Funções miscelâneas =================================================
+ 
 static void copiarTexto(char destino[MAX_STRING], const char origem[]) {
 	// Copia uma string para um campo de tamanho limitado, garantindo o terminador
 	snprintf(destino, MAX_STRING, "%s", origem);
@@ -60,35 +60,22 @@ int listaArtistasEhVazia (Genero *g) {
 	return g->inicioArtistas == NULL;
 }
 
-void mensagemDeErroForte(const char mensagem[]) {
+void mensagemDeErro(const char mensagem[]) {
 	// Imprime uma mensagem de erro e fecha o programa imediatamente
-	printf("%s", mensagem);
+	printf("ERRO: %s", mensagem);
 	getchar();
 	exit(EXIT_FAILURE);
-}
-
-void mensagemDeErroFraca(const char mensagem[]) {
-	// Imprime uma mensagem de erro, mas não encerra o programa
-	printf("%s", mensagem);
-	return;
 }
 
 FILE *abreArquivoPraLer (FILE *fp, const char nome[]) {
 	// Abre o arquivo no modo "read" e checa se houve erro; retorna o ponteiro para o arquivo
 	fp = fopen(nome, "r");
-	if (fp == NULL) mensagemDeErroForte("Erro na abertura do arquivo. Rode o programa novamente.");
-	return fp;
-}
-
-FILE *abreArquivoPraEscrever (FILE *fp, const char nome[]) {
-	// Abre o arquivo no modo "append" e checa se houve erro; retorna o ponteiro para o arquivo
-	fp = fopen(nome, "a");
-	if (fp == NULL) mensagemDeErroForte("Erro na abertura do arquivo. Rode o programa novamente.");
+	if (fp == NULL) mensagemDeErro("Erro na abertura do arquivo. Rode o programa novamente.");
 	return fp;
 }
 
 
-//======================= Manipulação da lista de gêneros (Orlando) =========================
+//=================================== Manipulação da lista de gêneros (Orlando) ========================================
 
 // -> Criação/destruição da lista principal
 
@@ -97,7 +84,7 @@ ListaPrincipal* criarListaPrincipal(void) {
 	ListaPrincipal* lp = (ListaPrincipal*) malloc(sizeof(ListaPrincipal));
 
 	if (lp == NULL) {
-		mensagemDeErroForte("Erro de memória. Rode o programa novamente.");
+		mensagemDeErro("Erro de memória. Rode o programa novamente.");
 	}
 	
 	lp->inicio = NULL;
@@ -114,24 +101,15 @@ void destruirListaPrincipal(ListaPrincipal* lp) {
 	Genero* atual = lp->inicio;
 	while (atual != NULL) {
 		Genero* proxGenero = atual->prox;
-        
+		
 		// Desaloca a lista secundária de artistas associada ao gênero
-		Artista* aAtual = atual->inicioArtistas;
-		while (aAtual != NULL) {
-			Artista* proxArtista = aAtual->prox;
-			free(aAtual);
-			aAtual = proxArtista;
-		}
+		removerGenero(lp, atual->id);
 
-		free(atual);
 		atual = proxGenero;
 	}
 
 	free(lp);
 }
-
-/* TODO: função destruirGenero para deixar a função acima mais modular. Também vamos precisar dessa função para remover
-   gêneros! */
 
 
 // -> Criação/inserção/alteração/remoção de "nós-gênero"
@@ -141,13 +119,13 @@ Genero *criarGenero(ListaPrincipal *lp, int id, const char nome[]) {
 	if (lp == NULL || nome == NULL) return NULL;
 
 	if (buscarGenero(lp, id) != NULL) {
-		mensagemDeErroFraca("Erro: já existe um artista com esse ID no sistema!\n");
+		printf("\nJá existe um gênero com esse ID no sistema!\n");
 		return NULL;
 	}
 
 	Genero* novo = (Genero*) malloc(sizeof(Genero));
 	if (novo == NULL) {
-		mensagemDeErroFraca("Erro de alocação de memória!\n");
+		printf("\nErro de alocação de memória!\n");
 		return NULL;
 	}
 
@@ -163,7 +141,7 @@ Genero *criarGenero(ListaPrincipal *lp, int id, const char nome[]) {
 int inserirGenero(ListaPrincipal* lp, Genero *g) {
 	// Insere um gênero na lista prinicpal
 	if (g == NULL) {
-		mensagemDeErroFraca("Gênero inválido.\n");
+		printf("Gênero inválido.\n");
 		return 0;
 	}
 	
@@ -182,7 +160,7 @@ int inserirGenero(ListaPrincipal* lp, Genero *g) {
 	return 1;
 }
 
-int alterarGenero(ListaPrincipal* lp, int id, const char* novoNome) {
+int alterarGenero(ListaPrincipal* lp, int id, const char novoNome[]) {
     if (lp == NULL || novoNome == NULL) return 0;
 
     // Utiliza a função de busca para reaproveitar o ponteiro do nó
@@ -190,8 +168,7 @@ int alterarGenero(ListaPrincipal* lp, int id, const char* novoNome) {
     if (g == NULL) return 0; // Retorna 0 (falha) se o gênero não existir
 
     // Atualiza com segurança a string do nome
-    strncpy(g->nome, novoNome, MAX_STRING - 1);
-    g->nome[MAX_STRING - 1] = '\0';
+	copiarTexto(g->nome, novoNome);
 
     return 1; // Retorna 1 para sinalizar sucesso
 }
@@ -284,7 +261,7 @@ void exibirListaGeneros (ListaPrincipal *l) {
 }
 
 
-//======================== Manipulação da lista de artistas (Fernando) ======================
+//==================================== Manipulação da lista de artistas (Fernando) =====================================
 
 // -> Criação, inserção, alteração e remoção de artistas
 
@@ -299,13 +276,13 @@ Artista *criarArtista(ListaPrincipal *lista, int id, const char nome[], int qtdI
 	}
 
 	if (localizarArtistaGlobal(lista, id) != NULL) {
-		mensagemDeErroFraca("Já existe um artista com esse ID no sistema.\n");
+		printf("Já existe um artista com esse ID no sistema.\n");
 		return NULL;
 	}
 
 	novo = malloc(sizeof(Artista));
 	if (novo == NULL) {
-		mensagemDeErroFraca("Falha na alocação de memória.\n");
+		printf("Falha na alocação de memória.\n");
 		return NULL;
 	}
 
@@ -320,12 +297,14 @@ Artista *criarArtista(ListaPrincipal *lista, int id, const char nome[], int qtdI
 	novo->estreia = estreia;
 	novo->atividade = atividade;
 	novo->encerramento = encerramento;
+
+	return novo;
 }
 
 int inserirArtistaGenero(Artista *a, Genero *genero) {
 	// Insere um artista no fim da lista de um determinado gênero
 	if (a == NULL) {
-		mensagemDeErroFraca("Artista inválido.\n");
+		printf("Artista inválido.\n");
 		return 0;
 	}
 
@@ -419,7 +398,7 @@ Artista *buscaArtistaGenero(Genero *genero, int id) {
 	return NULL;
 }
 
-static Artista *localizarArtistaGlobal(ListaPrincipal *lista, int id) {
+Artista *localizarArtistaGlobal(ListaPrincipal *lista, int id) {
 	// Localiza um artista pelo ID em todos os gêneros do sistema
 	Genero *genero;
 
@@ -440,37 +419,10 @@ static Artista *localizarArtistaGlobal(ListaPrincipal *lista, int id) {
 	return NULL;
 }
 
-Artista *buscaGlobalArtista(ListaPrincipal *lista, int id) {
-	// Busca um artista pelo ID no sistema, exibe seus dados e retorna seu endereço
-	Genero *auxGenero;
-	Artista *artista;
-
-	if (lista == NULL) {
-		return NULL;
-	}
-
-	artista = localizarArtistaGlobal(lista, id);
-	if (artista == NULL) {
-		return NULL;
-	}
-
-	auxGenero = lista->inicio;
-	while (auxGenero != NULL) {
-		if (buscaArtistaGenero(auxGenero, id) == artista) {
-			printf("Genero: %s\n", auxGenero->nome);
-			exibirArtista(artista);
-			return artista;
-		}
-
-		auxGenero = auxGenero->prox;
-	}
-
-	return NULL;
-}
 
 // -> Exibem informações dos artistas, por artista, por lista (gênero) ou globalmente
 
-static void exibirArtista(const Artista *a) {
+void exibirArtista(const Artista *a) {
 	// Exibe no terminal todos os dados armazenados em um artista
 	printf("Id do artista: %d\n", a->id);
 	printf("Nome do artista/grupo: %s\n", a->nome);
@@ -501,11 +453,11 @@ void listarArtistasGenero(Genero *genero) {
 void exibirArtistasPorGenero(ListaPrincipal *lp) {
 	// Exibe todos os artistas cadastrados, de gênero em gênero.
 	if (listaGenerosEhVazia(lp)) {
-		printf("Lista de gêneros vazia.\n");
+		printf("\nLista de gêneros vazia.\n");
 		return;
 	}
 
-	printf("==== Exibindo todos os artistas cadastrados ====\n\n\n");
+	printf("\n==== Exibindo todos os artistas cadastrados ====\n\n\n");
 	
 	Genero *atual = lp->inicio;
 	while (atual != NULL) {
@@ -547,7 +499,7 @@ void filtrarArtistasPremiacoes(ListaPrincipal *lista, int minimoPremiacoes) {
 
 		while (auxArtista != NULL) {
 			if (auxArtista->qtdPremiacoes >= minimoPremiacoes) {
-				printf("Genero: %s\n", auxGenero->nome);
+				printf("Gênero: %s\n", auxGenero->nome);
 				exibirArtista(auxArtista);
 				qtdEncontrada++;
 			}
@@ -562,24 +514,30 @@ void filtrarArtistasPremiacoes(ListaPrincipal *lista, int minimoPremiacoes) {
 	}
 }
 
+// -> Encontra o gênero com o menor número de artistas
 
-//========================== Consultas e funções de cruzamento ==============================
+void menorNumeroDeArtistas(ListaPrincipal *l) {
+	// Retorna o gênero com o menor número de artistas; em caso de empate, retorna o que aparecer primeiro na lista
+	if (listaGenerosEhVazia(l)) {
+		printf("Lista de gêneros vazia.\n");
+		return;
+	}
 
-/* int totalDeArtistas (ListaPrincipal *l) {
-
-/* } */
-
-/* void imprimeRelatorioGeral (ListaPrincipal *l) { */
+	Genero *menorNumero = l->inicio;
+	Genero *atual = menorNumero->prox;
+	while (atual != NULL) {
+		if (atual->qtdArtistas < menorNumero->qtdArtistas) {
+			menorNumero = atual;
+		}
+		atual = atual->prox;
+	}
 	
-/* } */
+	printf("\nO gênero com o menor número de artistas é o %s! Ele tem %d artistas cadastrados.\n", menorNumero->nome,
+		   menorNumero->qtdArtistas);
+}
 
 
-//================================= Impressão de menus ======================================
-
-
-
-
-//===================== Funções de manipulação de arquivos (Vinícius) =======================
+//=================================== Funções de manipulação de arquivos (Vinícius) ====================================
 
 Genero *lerGenero (FILE *fp, ListaPrincipal *lp) {
 	// Lê um gênero (de uma linha do arquivo de leitura) e o retorna
@@ -595,18 +553,18 @@ Genero *lerGenero (FILE *fp, ListaPrincipal *lp) {
 	char *token = strtok_r(buffer, ";", &ponteiro); /* "token" recebe a primeira parte da linha do arquivo (antes do
 													   ponto e vírgula), que é o ID do gênero da linha em questão */
 	if (token == NULL) {
-		mensagemDeErroForte("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
-							" campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
-							" novamente.)");
+		mensagemDeErro("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
+					   " campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
+					   " novamente.)");
 	}
 	sscanf(token, "%d", &idGenero); // Processa a string lida como um número (ID é um int) e atribui a "idGenero"
 
 	token = strtok_r(NULL, ";", &ponteiro); /* "token" agora contém o nome do gênero, que vem depois do ponto e vírgula
 											   (a segunda parte da linha) */
 	if (token == NULL) {
-		mensagemDeErroForte("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
-							" campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
-							" novamente.)");
+		mensagemDeErro("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
+					   " campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
+					   " novamente.)");
 	}
 	
 	token[strcspn(token, "\r\n")] = '\0'; /* Essa linha pega a primeira quebra de linha no final da string e troca por
@@ -643,8 +601,8 @@ Artista *lerArtista (FILE *fp, ListaPrincipal *lp, int *idGeneroCorrespondente) 
 	int anoDeEstreia;
 	int emAtividade;
 	int anoUltimaObra;
-	int idGenero;
 	char melhoresObras[MAX_STRING];
+	int idGenero;
 	
 	/* Nas linhas abaixo, vamos ler os campos para a criação do artista na ordem em que as variáveis foram declaradas
 	   acima (primeiro o ID, depois o nome, depois a quantidade de intergrantes e prêmios, etc.) e armazená-los nas
@@ -653,85 +611,85 @@ Artista *lerArtista (FILE *fp, ListaPrincipal *lp, int *idGeneroCorrespondente) 
 	char *ponteiro;
 	char *token = strtok_r(buffer, ";", &ponteiro);
 	if (token == NULL) {
-		mensagemDeErroForte("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
-							" campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
-							" novamente.)");
+		mensagemDeErro("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
+					   " campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
+					   " novamente.)");
 	}
 	sscanf(token, "%d", &idArtista); // Lê e preenche o ID do artista da linha em questão
 
 	token = strtok_r(NULL, ";", &ponteiro);
 	if (token == NULL) {
-		mensagemDeErroForte("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
-							" campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
-							" novamente.)");
+		mensagemDeErro("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
+					   " campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
+					   " novamente.)");
 	}
 	copiarTexto(nomeArtista, token); // Lê e preenche o nome do artista da linha em questão
 
 	token = strtok_r(NULL, ";", &ponteiro);
 	if (token == NULL) {
-		mensagemDeErroForte("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
-							" campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
-							" novamente.)");
+		mensagemDeErro("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
+					   " campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
+					   " novamente.)");
 	}
 	sscanf(token, "%d", &quantosIntegrantes); /* Lê e preenche quantos integrantes tem a banda, ou se é um artista solo
 												 na linha em questão */
 
 	token = strtok_r(NULL, ";", &ponteiro);
 	if (token == NULL) {
-		mensagemDeErroForte("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
-							" campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
-							" novamente.)");
+		mensagemDeErro("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
+					   " campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
+					   " novamente.)");
 	}
 	sscanf(token, "%d", &quantosPremios); // Lê e preenche quantos prêmios (Grammys) tem o artista/banda
 
 	token = strtok_r(NULL, ";", &ponteiro);
 	if (token == NULL) {
-		mensagemDeErroForte("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
-							" campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
-							" novamente.)");
+		mensagemDeErro("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
+					   " campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
+					   " novamente.)");
 	}
 	copiarTexto(cidadeNatal, token); // Lê e preenche o cidade de origem do artista/banda da linha em questão
 
 	token = strtok_r(NULL, ";", &ponteiro);
 	if (token == NULL) {
-		mensagemDeErroForte("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
-							" campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
-							" novamente.)");
+		mensagemDeErro("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
+					   " campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
+					   " novamente.)");
 	}
 	sscanf(token, "%d", &anoDeEstreia); /* Lê e preenche o ano de lançamento da primeira obra do artista da linha em
 										   questão */
 
 	token = strtok_r(NULL, ";", &ponteiro);
 	if (token == NULL) {
-		mensagemDeErroForte("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
-							" campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
-							" novamente.)");
+		mensagemDeErro("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
+					   " campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
+					   " novamente.)");
 	}
 	sscanf(token, "%d", &emAtividade); /* Lê e preenche com o valor 0 caso o artista não esteja em atividade e 1 caso
 										  contrário */
 
 	token = strtok_r(NULL, ";", &ponteiro);
 	if (token == NULL) {
-		mensagemDeErroForte("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
-							" campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
-							" novamente.)");
+		mensagemDeErro("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
+					   " campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
+					   " novamente.)");
 	}
 	sscanf(token, "%d", &anoUltimaObra); /* Lê e preenche com o ano de lançamento da última obra/encerramento das
 											atividades */
 
 	token = strtok_r(NULL, ";", &ponteiro);
 	if (token == NULL) {
-		mensagemDeErroForte("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
-							" campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
-							" novamente.)");
+		mensagemDeErro("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
+					   " campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
+					   " novamente.)");
 	}
 	copiarTexto(melhoresObras, token); // Lê e preenche com as principais obras do artista
 
 	token = strtok_r(NULL, ";", &ponteiro);
 	if (token == NULL) {
-		mensagemDeErroForte("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
-							" campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
-							" novamente.)");
+		mensagemDeErro("Erro na leitura do arquivo: formato não suportado. Talvez você não tenha preenchido um dos"
+					   " campos corretamente, use o cabeçalho como referência! (Faça a alteração e rode o programa"
+					   " novamente.)");
 	}
 	sscanf(token, "%d", &idGenero);
 	*idGeneroCorrespondente = idGenero; /* Altera o conteúdo do ponteiro idGeneroCorrespondente para podermos passar o
@@ -743,7 +701,7 @@ Artista *lerArtista (FILE *fp, ListaPrincipal *lp, int *idGeneroCorrespondente) 
 
 void carregarArtistas (FILE *fp, ListaPrincipal *l) {
 	// Carrega todos os artistas cadastrados em um arquivo ("artistas.txt") para a lista principal
-	char c;
+	int c;
 	while ((c = fgetc(fp)) != '\n'); /* Essa parte (últimas duas linhas) só serve para pularmos a primeira linha, que é
 										um cabeçalho */
 	int idGenero;
@@ -752,8 +710,8 @@ void carregarArtistas (FILE *fp, ListaPrincipal *l) {
 	while ((a = lerArtista(fp, l, &idGenero)) != NULL) {
 		g = buscarGenero(l, idGenero); // Buscamos o gênero correto para inserir o artista
 		if (g == NULL) {
-			mensagemDeErroFraca("Existe um artista em artistas.txt com um gênero inválido (não existe ID correspondente"
-								" ao gênero.)");
+			printf("Aviso: existe um artista em artistas.txt com um gênero inválido (não existe ID correspondente ao"
+				   "gênero.)\n");
 			continue;
 		}
 		inserirArtistaGenero(a, g); /* Inserimos o artista no gênero e repetimos o loop até encontrar EOF que retorna
@@ -761,5 +719,125 @@ void carregarArtistas (FILE *fp, ListaPrincipal *l) {
 	}
 }
 
+//================================= Impressão de menus e interação com o usuário ======================================
 
-//===========================================================================================
+void imprimirMenuPrincipal() {
+	// Imprime o menu prinicipal do sistema
+	printf("\n1 - Adicionar um gênero/artista\n2 - Buscar pelo ID de um gênero/artista\n3 - Remover um gênero/artista\n"
+		   "4 - Alterar os dados de um gênero/artista\n5 - Exibir dados de gêneros/artistas\n6 - Realizar uma consulta "
+		   "\n0 - Encerrar o programa\n\n");
+}
+
+void escolherGeneroArtista() {
+	// Imprime o menu secundário do sistema (escolha entre gênero ou artista)
+	printf("\nDigite \"0\" e depois \"enter\" se você quer gênero ou \"1\" e depois \"enter\" se quer artista.\n\n");
+}
+
+void preencherInformacoesGenero(int *id, char nome[]) {
+	// Coleta as informações para formar um gênero
+	printf("Digite um ID para o gênero: ");
+	scanf("%d", id);
+	while (getchar() != '\n');
+
+	printf("Digite o nome do gênero: ");
+	fscanf(stdin, "%199[^\n]", nome);
+}
+
+void preencherInformacoesArtista(int *idArtista, char nomeArtista[], int *qtdIntegrantes, int *qtdPremiacoes,
+								 char cidadeOrigem[], int *estreia, int *atividade, int *encerramento,
+								 char principaisObras[], int *idGeneroCorrespondente) {
+	// Coleta as informações para formar um artista
+	printf("\nDigite um ID para o artista/banda: ");
+	scanf("%d", idArtista);
+	while (getchar() != '\n');
+
+	printf("Digite o nome do artista/banda: ");
+	fscanf(stdin, "%199[^\n]", nomeArtista);
+	while (getchar() != '\n');
+
+	printf("Digite quantos integrantes tem a banda (1 para artistas solo): ");
+	scanf("%d", qtdIntegrantes);
+	while (getchar() != '\n');
+
+	printf("Digite quantos Grammmys tem o artista/banda (quantidade de prêmios): ");
+	scanf("%d", qtdPremiacoes);
+	while (getchar() != '\n');
+
+	printf("Digite a cidade de origem do artista/grupo: ");
+	fscanf(stdin, "%199[^\n]", cidadeOrigem);
+	while (getchar() != '\n');
+
+	printf("Digite o ano de lançamento da primeira obra do artista/grupo: ");
+	scanf("%d", estreia);
+	while (getchar() != '\n');
+
+	printf("Digite 0 caso o grupo/artista não está mais em ativiade/falecido(s). Digite 1 caso ainda estejam ativos: ");
+	scanf("%d", atividade);
+	while (getchar() != '\n');
+
+	printf("Digite o ano de lançamento do(a) último(a) música/álbum: ");
+	scanf("%d", encerramento);
+	while (getchar() != '\n');
+
+	printf("Digite algumas músicas/álbuns notáveis desse artista (use | como separador): ");
+	fscanf(stdin, "%199[^\n]", principaisObras);
+	while (getchar() != '\n');
+
+	printf("Digite o ID do gênero correspondente a esse artista. Digite -1 caso você queira voltar para consultar: ");
+	scanf("%d", idGeneroCorrespondente);
+}
+
+void imprimirMenuDeBuscas() {
+	printf("\n1 - Buscar pelo ID de um gênero\n2 - Buscar pelo ID de um artista\n\n");
+}
+
+void mostraIDdoGenero(ListaPrincipal *l, const char nome[]) {
+	if (listaGenerosEhVazia(l)) {
+		printf("\nLista de gêneros vazia.\n");
+		return;
+	}
+	
+	Genero *atual = l->inicio;
+	while (atual != NULL && strcmp(atual->nome, nome) != 0) {
+		atual = atual->prox;
+	}
+	
+	if (atual == NULL) {
+		printf("\nGênero não encontrado. Adicione-o!\n");
+		return;
+	}
+	
+	printf("\nO ID do gênero %s é %d.\n", nome, atual->id);
+}
+
+void mostraIDdoArtista(ListaPrincipal *l, const char nome[]) {
+	if (listaGenerosEhVazia(l)) {
+		printf("\nLista de gêneros vazia.\n");
+		return;
+	}
+	
+	Genero *atual = l->inicio;
+	Artista *aAtual;
+	
+	while (atual != NULL) {
+		if (listaArtistasEhVazia(atual)) continue;
+
+		aAtual = atual->inicioArtistas;
+		while (aAtual != NULL && strcmp(aAtual->nome, nome) != 0) {
+			aAtual = aAtual->prox;
+		}
+
+		if (aAtual == NULL) atual = atual->prox;
+		else break;
+	}
+	
+	if (aAtual == NULL) {
+		printf("\nArtista não encontrado. Adicione-o!\n");
+		return;
+	}
+	
+	printf("\nO ID do artista %s é %d.\n", nome, aAtual->id);
+}
+
+
+//=====================================================================================================================

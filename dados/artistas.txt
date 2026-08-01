@@ -1,39 +1,39 @@
 [ID do artista];[Nome do artista/grupo];[Quantidade de integrantes];[Quantidade de premiações];[Cidade de origem];[Ano de estreia];[Em atividade? (Não = 0, Sim = 1)];[Data de lançamento da última obra];[Principais obras (separadas por |)];[ID do gênero]
-1;The Beatles;4;32;Liverpool;1960;0;2006-11-20;Abbey Road | Let It Be | Hey Jude | Sgt. Pepper's Lonely Hearts Club Band;1
-2;Queen;4;18;Londres;1970;0;1995-11-06;A Night at the Opera | News of the World | Bohemian Rhapsody | The Game;1
-3;Pink Floyd;5;15;Londres;1965;1;2022-09-16;The Dark Side of the Moon | Wish You Were Here | The Wall | Animals;1
-4;Michael Jackson;1;834;Gary;1964;0;2014-05-13;Thriller | Billie Jean | Beat It | Bad;2
-5;Madonna;1;300;Bay City;1979;1;2023-10-13;Like a Virgin | Ray of Light | Vogue | Confessions on a Dance Floor;2
-6;Taylor Swift;1;600;Reading;2004;1;2024-04-19;1989 | Fearless | Midnights | The Tortured Poets Department;2
-7;Kendrick Lamar;1;195;Compton;2003;1;2024-11-22;good kid, m.A.A.d city | To Pimp a Butterfly | DAMN. | GNX;3
-8;Dr. Dre;1;45;Compton;1985;1;2022-02-04;The Chronic | 2001 | Still D.R.E. | Forgot About Dre;3
-9;Eminem;1;187;St. Joseph;1996;1;2024-07-12;The Marshall Mathers LP | Lose Yourself | Without Me | The Death of Slim Shady;4
-10;2Pac;1;18;New York;1987;0;2006-11-21;All Eyez on Me | California Love | Changes | Me Against the World;4
+1;The Beatles;4;10;Liverpool;1960;0;2023-11-02;Abbey Road | Let It Be | Hey Jude | Now and Then;1
+2;Queen;4;0;Londres;1970;0;1995-11-06;A Night at the Opera | News of the World | Bohemian Rhapsody | The Game;1
+3;Pink Floyd;5;1;Londres;1965;1;2022-09-16;The Dark Side of the Moon | Wish You Were Here | The Wall | Animals;1
+4;Michael Jackson;1;13;Gary;1964;0;2014-05-13;Thriller | Billie Jean | Beat It | Bad;2
+5;Madonna;1;7;Bay City;1979;1;2023-10-13;Like a Virgin | Ray of Light | Vogue | Confessions on a Dance Floor;2
+6;Taylor Swift;1;14;Reading;2004;1;2025-10-03;1989 | Fearless | Midnights | The Life of a Showgirl;2
+7;Kendrick Lamar;1;27;Compton;2003;1;2024-11-22;good kid, m.A.A.d city | To Pimp a Butterfly | DAMN. | GNX;3
+8;Dr. Dre;1;6;Compton;1985;1;2022-02-04;The Chronic | 2001 | Still D.R.E. | Forgot About Dre;3
+9;Eminem;1;15;St. Joseph;1996;1;2024-07-12;The Marshall Mathers LP | Lose Yourself | Without Me | The Death of Slim Shady;4
+10;2Pac;1;0;New York;1987;0;2006-11-21;All Eyez on Me | California Love | Changes | Me Against the World;4
 11;Beyoncé;1;35;Houston;1997;1;2024-03-29;Crazy in Love | Halo | Renaissance | Cowboy Carter;5
 12;Alicia Keys;1;17;New York;1996;1;2021-09-10;Songs in A Minor | If I Ain't Got You | Girl on Fire | Keys;5
-13;James Brown;1;3;Barnwell;1953;0;2002-08-06;I Got You | Papa's Got a Brand New Bag | Sex Machine | Live at the Apollo;7
+13;James Brown;1;1;Barnwell;1953;0;2002-08-06;I Got You | Papa's Got a Brand New Bag | Sex Machine | Live at the Apollo;7
 14;Earth, Wind & Fire;9;6;Chicago;1969;1;2024-09-06;September | Fantasy | Boogie Wonderland | That's the Way of the World;7
 15;Miles Davis;1;8;Alton;1944;0;1989-01-01;Kind of Blue | Bitches Brew | Sketches of Spain | Birth of the Cool;8
 16;Louis Armstrong;1;1;New Orleans;1914;0;1970-01-01;What a Wonderful World | Hello Dolly | West End Blues | Satchmo Plays King Oliver;8
-17;Johnny Cash;1;18;Kingsland;1954;0;2006-07-04;Ring of Fire | At Folsom Prison | I Walk the Line | American IV;10
-18;Dolly Parton;1;190;Sevierville;1955;1;2023-11-17;Jolene | 9 to 5 | Coat of Many Colors | Rockstar;10
-19;Bob Marley & The Wailers;5;22;Kingston;1963;0;1983-05-10;Legend | No Woman No Cry | One Love | Exodus;12
-20;Jimmy Cliff;1;8;Somerton;1962;1;2022-07-29;The Harder They Come | Many Rivers to Cross | Wonderful World Beautiful People | Rebirth;12
-21;Metallica;4;23;Los Angeles;1981;1;2023-04-14;Master of Puppets | Metallica | Enter Sandman | 72 Seasons;15
-22;Iron Maiden;6;10;Londres;1975;1;2021-09-03;The Number of the Beast | Powerslave | Fear of the Dark | Senjutsu;15
-23;Ramones;4;1;New York;1974;0;1995-07-18;Blitzkrieg Bop | Rocket to Russia | Ramones | Leave Home;16
-24;Sex Pistols;4;3;Londres;1975;1;2024-09-26;Never Mind the Bollocks | Anarchy in the U.K. | God Save the Queen | Pretty Vacant;16
+17;Johnny Cash;1;13;Kingsland;1954;0;2006-07-04;Ring of Fire | At Folsom Prison | I Walk the Line | American IV;10
+18;Dolly Parton;1;11;Sevierville;1955;1;2023-11-17;Jolene | 9 to 5 | Coat of Many Colors | Rockstar;10
+19;Bob Marley & The Wailers;5;0;Kingston;1963;0;1983-05-10;Legend | No Woman No Cry | One Love | Exodus;12
+20;Jimmy Cliff;1;2;Somerton;1962;1;2022-07-29;The Harder They Come | Many Rivers to Cross | Wonderful World Beautiful People | Rebirth;12
+21;Metallica;4;9;Los Angeles;1981;1;2023-04-14;Master of Puppets | Metallica | Enter Sandman | 72 Seasons;15
+22;Iron Maiden;6;0;Londres;1975;1;2021-09-03;The Number of the Beast | Powerslave | Fear of the Dark | Senjutsu;15
+23;Ramones;4;0;New York;1974;0;1995-07-18;Blitzkrieg Bop | Rocket to Russia | Ramones | Leave Home;16
+24;Sex Pistols;4;0;Londres;1975;1;2024-09-26;Never Mind the Bollocks | Anarchy in the U.K. | God Save the Queen | Pretty Vacant;16
 25;Daft Punk;2;6;Paris;1993;0;2021-02-22;Discovery | Random Access Memories | One More Time | Around the World;26
 26;The Chemical Brothers;2;6;Manchester;1989;1;2023-09-08;Dig Your Own Hole | Galvanize | Surrender | For That Beautiful Feeling;26
-27;Duran Duran;5;2;Birmingham;1978;1;2023-10-27;Rio | Hungry Like the Wolf | Ordinary World | Danse Macabre;39
-28;A-ha;3;10;Oslo;1982;1;2022-04-01;Take On Me | Hunting High and Low | Stay on These Roads | True North;39
+27;Duran Duran;5;0;Birmingham;1978;1;2023-10-27;Rio | Hungry Like the Wolf | Ordinary World | Danse Macabre;39
+28;A-ha;3;0;Oslo;1982;1;2022-04-01;Take On Me | Hunting High and Low | Stay on These Roads | True North;39
 29;João Gilberto;1;2;Juazeiro;1957;0;2000-09-19;Chega de Saudade | Getz/Gilberto | Amoroso | João Voz e Violão;43
-30;Tom Jobim;1;4;Rio de Janeiro;1954;0;1994-01-01;Chega de Saudade | Wave | Stone Flower | Águas de Março;43
-31;Zeca Pagodinho;1;8;Rio de Janeiro;1983;1;2023-11-24;Deixa a Vida Me Levar | Verdade | Camarão que Dorme a Onda Leva | Acústico MTV;44
-32;Beth Carvalho;1;12;Rio de Janeiro;1965;0;2018-09-21;Coisinha do Pai | Vou Festejar | Andança | Beth Carvalho Canta o Samba da Bahia;44
-33;Luiz Gonzaga;1;2;Exu;1941;0;1989-01-01;Asa Branca | Baião | Xote das Meninas | A Vida do Viajante;46
-34;Dominguinhos;1;10;Garanhuns;1957;0;2010-05-01;Eu Só Quero um Xodó | Isso Aqui Tá Bom Demais | De Volta pro Aconchego | Gostoso Demais;46
-35;Chico Buarque;1;12;Rio de Janeiro;1966;1;2022-07-22;Construção | Apesar de Você | Meus Caros Amigos | Caravanas;47
-36;Caetano Veloso;1;25;Santo Amaro;1965;1;2024-01-01;Transa | Livro | Meu Coco | Cinema Transcendental;47
-37;Chitãozinho & Xororó;2;14;Astorga;1970;1;2024-09-20;Evidências | Fio de Cabelo | Página de Amigos | Sinônimos;48
-38;Zezé Di Camargo & Luciano;2;9;Piracanjuba;1991;1;2024-10-24;É o Amor | Dois Corações e uma História | No Dia em que Saí de Casa | Flores em Vida;48
+30;Tom Jobim;1;0;Rio de Janeiro;1954;0;1994-01-01;Chega de Saudade | Wave | Stone Flower | Águas de Março;43
+31;Zeca Pagodinho;1;4;Rio de Janeiro;1983;1;2023-11-24;Deixa a Vida Me Levar | Verdade | Camarão que Dorme a Onda Leva | Acústico MTV;44
+32;Beth Carvalho;1;1;Rio de Janeiro;1965;0;2018-09-21;Coisinha do Pai | Vou Festejar | Andança | Beth Carvalho Canta o Samba da Bahia;44
+33;Luiz Gonzaga;1;0;Exu;1941;0;1989-01-01;Asa Branca | Baião | Xote das Meninas | A Vida do Viajante;46
+34;Dominguinhos;1;1;Garanhuns;1957;0;2010-05-01;Eu Só Quero um Xodó | Isso Aqui Tá Bom Demais | De Volta pro Aconchego | Gostoso Demais;46
+35;Chico Buarque;1;2;Rio de Janeiro;1966;1;2022-07-22;Construção | Apesar de Você | Meus Caros Amigos | Caravanas;47
+36;Caetano Veloso;1;16;Santo Amaro;1965;1;2024-01-01;Transa | Livro | Meu Coco | Cinema Transcendental;47
+37;Chitãozinho & Xororó;2;4;Astorga;1970;1;2024-09-20;Evidências | Fio de Cabelo | Página de Amigos | José & Durval;48
+38;Zezé Di Camargo & Luciano;2;3;Piracanjuba;1991;1;2024-10-24;É o Amor | Dois Corações e uma História | No Dia em que Saí de Casa | Flores em Vida;48
