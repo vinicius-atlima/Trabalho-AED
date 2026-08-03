@@ -1,15 +1,13 @@
 [ID];[Nome do gênero]
 1;Rock
 2;Pop
-3;Hip Hop
-4;Rap
+3;Hip Hop/Rap
 5;R&B
 7;Funk
 8;Jazz
 10;Country
 12;Reggae
 15;Metal
-16;Punk
 26;Eletrônica
 39;New Wave
 43;Bossa Nova
@@ -17,3 +15,5 @@
 46;Forró
 47;MPB
 48;Sertanejo
+49;Reggaeton
+50;Funk Carioca
