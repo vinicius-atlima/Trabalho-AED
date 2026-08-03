@@ -710,7 +710,7 @@ void carregarArtistas (FILE *fp, ListaPrincipal *l) {
 	while ((a = lerArtista(fp, l, &idGenero)) != NULL) {
 		g = buscarGenero(l, idGenero); // Buscamos o gênero correto para inserir o artista
 		if (g == NULL) {
-			printf("Aviso: existe um artista em artistas.txt com um gênero inválido (não existe ID correspondente ao"
+			printf("Aviso: existe um artista em artistas.txt com um gênero inválido (não existe ID correspondente ao " 
 				   "gênero.)\n");
 			continue;
 		}
@@ -735,7 +735,7 @@ void escolherGeneroArtista() {
 
 void preencherInformacoesGenero(int *id, char nome[]) {
 	// Coleta as informações para formar um gênero
-	printf("Digite um ID para o gênero: ");
+	printf("\nDigite um ID para o gênero: ");
 	scanf("%d", id);
 	while (getchar() != '\n');
 
