@@ -97,7 +97,7 @@ Responsável pela persistência de entrada, pelo encerramento seguro do sistema 
 - [x] Implementar a liberação de memória de todas as listas.
 - [x] Implementar o relatório sintetizado de gêneros e artistas.
 - [x] Implementar a consulta do gênero com a menor quantidade de artistas.
-- [ ] Produzir a seção **Exemplos de Uso** do relatório.
+- [X] Produzir a seção **Exemplos de Uso** do relatório.
 - [x] Produzir a seção **Conclusão** do relatório.
 
 ## Estrutura sugerida de pastas
