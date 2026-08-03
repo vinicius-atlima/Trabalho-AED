@@ -74,7 +74,7 @@ Responsável pelo TAD da lista principal e pelas operações que mantêm os gên
 - [x] Implementar a listagem simples de gêneros.
 - [x] Implementar a contagem total de gêneros.
 - [x] Implementar a consulta que contabiliza os artistas de cada gênero.
-- [ ] Produzir a seção **Introdução** do relatório.
+- [x] Produzir a seção **Introdução** do relatório.
 
 ### Fernando Rodrigues Costa — Lista secundária: Artistas/Bandas
 
@@ -87,7 +87,7 @@ Responsável pelas operações da lista de artistas mantida dentro de cada gêne
 - [x] Implementar a listagem dos artistas de um gênero específico.
 - [x] Implementar a busca global de um artista em todos os gêneros.
 - [x] Implementar o filtro por quantidade mínima de premiações.
-- [ ] Produzir a seção **Documentação do Código** do relatório.
+- [x] Produzir a seção **Documentação do Código** do relatório.
 
 ### Vinícius Albino Torres Lima — Arquivos e sistema
 
@@ -98,7 +98,7 @@ Responsável pela persistência de entrada, pelo encerramento seguro do sistema 
 - [x] Implementar o relatório sintetizado de gêneros e artistas.
 - [x] Implementar a consulta do gênero com a menor quantidade de artistas.
 - [ ] Produzir a seção **Exemplos de Uso** do relatório.
-- [ ] Produzir a seção **Conclusão** do relatório.
+- [x] Produzir a seção **Conclusão** do relatório.
 
 ## Estrutura sugerida de pastas
 
